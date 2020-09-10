@@ -1,6 +1,8 @@
 module.exports = {
   root: true,
-  parser: "babel-eslint",
+  parserOptions: {
+    parser: "babel-eslint",
+  },
   plugins: ["babel"],
   extends: ["airbnb-base"],
   env: {
