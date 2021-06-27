@@ -17,10 +17,12 @@
 // // new Map();
 // // console.log(new Array());
 
-import Vue from 'vue';
-import App from './App.vue';
-import './assets/styles/scss.scss';
+import Vue from "vue";
+import App from "./App.vue";
+import "./assets/styles/scss.scss";
+
+Vue.config.productionTip = false;
 
 new Vue({
   render: (h) => h(App),
-}).$mount('.app');
+}).$mount(".app");
