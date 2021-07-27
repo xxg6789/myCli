@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
   target: "web",
@@ -14,7 +15,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.vue$/,
+        loader: "vue-loader",
+      },
+      {
+        test: /\.(js|jsx)$/,
         loader: "eslint-loader",
         exclude: /node_modules/,
         enforce: "pre",
@@ -23,13 +28,31 @@ module.exports = {
         },
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "stylus-loader",
+        ],
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "sass-loader",
+        ],
       },
       {
         test: /\.(jpeg|jpg|png|svg|gif)$/i,
@@ -47,6 +70,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "../public/index.html"),
       minify: true,
@@ -57,6 +81,9 @@ module.exports = {
     new CssMinimizerWebpackPlugin(),
   ],
   resolve: {
+    alias: {
+      "@": path.join(__dirname, "../src"),
+    },
     extensions: [".js", ".css", ".jsx"],
   },
   optimization: {
